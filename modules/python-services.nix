@@ -143,6 +143,14 @@ in
             Relative path to the main program file.
           '';
 
+          dataDir = mkOpt' types.path cfg.dataDir ''
+            Directory to store the python service.
+          '';
+
+          runDir = mkOpt' types.path cfg.runDir ''
+            Directory to place the runtime tmux socket into.
+          '';
+
           autoStart = mkBoolOpt' true ''
             Whether to start this services on boot.
             If set to <literal>false</literal>, can still be started with
