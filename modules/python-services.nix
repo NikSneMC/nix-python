@@ -287,7 +287,7 @@ in
               reload = ''
                 ${postStop}
                 ${preStart}
-              '' + conf.extraReload;
+              '';
 
               preStart =
                 let
