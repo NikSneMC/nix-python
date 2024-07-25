@@ -143,6 +143,14 @@ in
             Relative path to the main program file.
           '';
 
+          dataDir = mkOpt' types.path cfg.dataDir ''
+            Directory to store the python service.
+          '';
+
+          runDir = mkOpt' types.path cfg.runDir ''
+            Directory to place the runtime tmux socket into.
+          '';
+
           autoStart = mkBoolOpt' true ''
             Whether to start this services on boot.
             If set to <literal>false</literal>, can still be started with
@@ -209,15 +217,17 @@ in
       systemd.services = mapAttrs'
         (name: conf:
           let
+            dataDir = if conf.dataDir != cfg.dataDir then conf.dataDir else "${cfg.dataDir}/${name}";
+            runDir = if conf.runDir != cfg.runDir then conf.runDir else cfg.runDir;
             tmux = "${getBin pkgs.tmux}/bin/tmux";
-            tmuxSock = "${cfg.runDir}/${name}.sock";
+            tmuxSock = "${runDir}/${name}.sock";
 
             symlinks = normalizeFiles (conf.symlinks);
             files = normalizeFiles (conf.files);
 
             startScript = pkgs.writeScript "python-start-${name}" ''
               #!${pkgs.runtimeShell}
-              cd ${cfg.dataDir}/${name}
+              cd ${dataDir}
               ${tmux} -S ${tmuxSock} new -d ${conf.python} ${conf.mainFile} ${conf.pythonOpts}
 
               ${tmux} -S ${tmuxSock} server-access -aw nobody
@@ -251,13 +261,13 @@ in
               enable = conf.enable;
 
               startLimitIntervalSec = 120;
-              startLimitBurst = 5;
+              startLimitBurst = 25;
 
               serviceConfig = {
                 ExecStart = "${startScript}";
                 ExecStop = "${stopScript}";
                 Restart = conf.restart;
-                WorkingDirectory = "${cfg.dataDir}/${name}";
+                WorkingDirectory = dataDir;
                 User = cfg.user;
                 Group = cfg.group;
                 Type = "forking";
