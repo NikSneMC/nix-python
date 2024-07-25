@@ -255,7 +255,7 @@ in
                 WorkingDirectory = "${cfg.dataDir}/${name}";
                 User = cfg.user;
                 Group = cfg.group;
-                Type = "simple";
+                Type = "idle";
                 GuessMainPID = true;
                 RuntimeDirectory = "python";
                 RuntimeDirectoryPreserve = "yes";
