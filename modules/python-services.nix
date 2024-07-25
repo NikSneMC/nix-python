@@ -134,9 +134,12 @@ in
             just does not generate the service file.
           '';
 
-          executable = mkOpt' types.str "code.py" ''
-            File that should be executed by the service.
-            Command is executed in the service directory, such as <literal>/srv/python/servicename/</literal>.
+          python = mkOpt' types.str "venv/bin/python" ''
+            Relative path to the python executable.
+          '';
+
+          mainFile = mkOpt' types.str "main.py" ''
+            Relative path to the main program file.
           '';
 
           autoStart = mkBoolOpt' true ''
@@ -213,7 +216,8 @@ in
 
             startScript = pkgs.writeScript "python-start-${name}" ''
               #!${pkgs.runtimeShell}
-              ${tmux} -S ${tmuxSock} new -d ${cfg.dataDir}/${name}/${conf.executable} ${conf.pythonOpts}
+              cd ${cfg.dataDir}/${name}
+              ${tmux} -S ${tmuxSock} new -d ${conf.python} ${conf.mainFile} ${conf.pythonOpts}
 
               ${tmux} -S ${tmuxSock} server-access -aw nobody
             '';
