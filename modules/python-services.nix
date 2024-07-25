@@ -257,8 +257,6 @@ in
                 GuessMainPID = true;
                 RuntimeDirectory = "python";
                 RuntimeDirectoryPreserve = "yes";
-                EnvironmentFile = mkIf (cfg.environmentFile != null)
-                  (toString cfg.environmentFile);
 
                 # Hardening
                 CapabilityBoundingSet = [ "" ];
