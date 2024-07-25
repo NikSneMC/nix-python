@@ -255,7 +255,7 @@ in
                 WorkingDirectory = "${cfg.dataDir}/${name}";
                 User = cfg.user;
                 Group = cfg.group;
-                Type = "idle";
+                Type = "forking";
                 GuessMainPID = true;
                 RuntimeDirectory = "python";
                 RuntimeDirectoryPreserve = "yes";
