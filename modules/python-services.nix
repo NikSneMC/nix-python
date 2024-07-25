@@ -330,6 +330,7 @@ in
                 ''
                   ${mkSymlinks}
                   ${mkFiles}
+                  touch ${executable}
                 '';
 
               postStart = ''
