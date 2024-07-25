@@ -215,7 +215,7 @@ in
               #!${pkgs.runtimeShell}
               ${tmux} -S ${tmuxSock} new -d ${cfg.dataDir}/${name}/${conf.executable} ${conf.pythonOpts}
 
-              ${tmux} -S ${tmuxSock} service-access -aw nobody
+              ${tmux} -S ${tmuxSock} server-access -aw nobody
             '';
 
             stopScript = pkgs.writeScript "python-stop-${name}" ''
@@ -330,7 +330,6 @@ in
                 ''
                   ${mkSymlinks}
                   ${mkFiles}
-                  touch ${executable}
                 '';
 
               postStart = ''
