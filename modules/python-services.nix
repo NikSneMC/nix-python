@@ -155,7 +155,7 @@ in
             <literal>"no"</literal> and <literal>"always"</literal> may not work properly.
           '';
 
-          pythonOpts = mkOpt' (types.separatedString " ") "-node1" "Launch ptions for this service.";
+          pythonOpts = mkOpt' (types.separatedString " ") "" "Launch ptions for this service.";
 
           path = with types; mkOpt' (listOf (either path str)) [ ] ''
             Packages added to the python service's <literal>PATH</literal> environment variable.
