@@ -218,7 +218,7 @@ in
         (name: conf:
           let
             dataDir = if conf.dataDir != cfg.dataDir then conf.dataDir else "${cfg.dataDir}/${name}";
-            runDir = if cfg.runDir != conf.runDir then conf.runDir else cfg.runDir;
+            runDir = if conf.runDir != cfg.runDir then conf.runDir else cfg.runDir;
             tmux = "${getBin pkgs.tmux}/bin/tmux";
             tmuxSock = "${runDir}/${name}.sock";
 
@@ -261,7 +261,7 @@ in
               enable = conf.enable;
 
               startLimitIntervalSec = 120;
-              startLimitBurst = 5;
+              startLimitBurst = 25;
 
               serviceConfig = {
                 ExecStart = "${startScript}";
