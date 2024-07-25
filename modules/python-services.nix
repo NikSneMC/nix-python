@@ -136,6 +136,7 @@ in
 
           python = mkOpt' types.str "venv/bin/python" ''
             Relative path to the python executable.
+            It's recommended to use virtual environment.
           '';
 
           mainFile = mkOpt' types.str "main.py" ''
