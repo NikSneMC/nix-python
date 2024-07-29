@@ -147,10 +147,6 @@ in
             Directory to store the python service.
           '';
 
-          runDir = mkOpt' types.path cfg.runDir ''
-            Directory to place the runtime tmux socket into.
-          '';
-
           autoStart = mkBoolOpt' true ''
             Whether to start this services on boot.
             If set to <literal>false</literal>, can still be started with
@@ -218,9 +214,8 @@ in
         (name: conf:
           let
             dataDir = if conf.dataDir != cfg.dataDir then conf.dataDir else "${cfg.dataDir}/${name}";
-            runDir = if conf.runDir != cfg.runDir then conf.runDir else cfg.runDir;
             tmux = "${getBin pkgs.tmux}/bin/tmux";
-            tmuxSock = "${runDir}/${name}.sock";
+            tmuxSock = "${cfg.runDir}/${name}.sock";
 
             symlinks = normalizeFiles (conf.symlinks);
             files = normalizeFiles (conf.files);
