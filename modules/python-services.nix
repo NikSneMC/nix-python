@@ -251,6 +251,7 @@ in
             value = rec {
               description = "Python service ${name}";
               wantedBy = mkIf conf.autoStart [ "multi-user.target" ];
+              requires = [ "network-online.target" ];
               after = [ "network.target" "network-online.target" ];
 
               enable = conf.enable;
